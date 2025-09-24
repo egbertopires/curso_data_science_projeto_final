@@ -1,0 +1,17 @@
+# Ambiente virtual
+.venv/
+
+# Arquivos CSV grandes
+arquivos/MICRODADOS_ENEM_2019.csv
+
+# Arquivos gerados
+arquivos/classificacao_enem_2019
+arquivos/regressao_enem_2019
+arquivos/tratado_enem_2019
+
+# Configurações do PyCharm
+.idea/
+
+# Cache e arquivos Python compilados
+__pycache__/
+*.pyc
