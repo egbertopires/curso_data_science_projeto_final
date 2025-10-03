@@ -8,6 +8,7 @@ arquivos/MICRODADOS_ENEM_2019.csv
 arquivos/classificacao_enem_2019
 arquivos/regressao_enem_2019
 arquivos/tratado_enem_2019
+arquivos/regressao_DF_normalizado
 
 # Configurações do PyCharm
 .idea/

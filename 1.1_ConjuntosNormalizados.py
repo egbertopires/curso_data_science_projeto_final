@@ -1,0 +1,81 @@
+# Importando as bibliotecas
+
+from variaveis import regressao_DF # módulo variaveis
+import pandas as pd # pandas
+from sklearn.preprocessing import LabelEncoder # label enconder
+from sklearn.preprocessing import MinMaxScaler # normalização
+
+########################################################
+
+## Transfomando os dados qualitativos em quantitavos do dataframe regressaoDF
+
+# Criando as instâncias que tornarão os dados qualitavos em quantitativos
+
+quantitativo_regressao = regressao_DF.iloc[:,:].values
+
+LabelEncoder_TP_SEXO = LabelEncoder()
+LabelEncoder_Q001 = LabelEncoder()
+LabelEncoder_Q002 = LabelEncoder()
+LabelEncoder_Q003 = LabelEncoder()
+LabelEncoder_Q004 = LabelEncoder()
+LabelEncoder_Q006 = LabelEncoder()
+LabelEncoder_Q007 = LabelEncoder()
+LabelEncoder_Q008 = LabelEncoder()
+LabelEncoder_Q009 = LabelEncoder()
+LabelEncoder_Q010 = LabelEncoder()
+LabelEncoder_Q011 = LabelEncoder()
+LabelEncoder_Q012 = LabelEncoder()
+LabelEncoder_Q013 = LabelEncoder()
+LabelEncoder_Q014 = LabelEncoder()
+LabelEncoder_Q015 = LabelEncoder()
+LabelEncoder_Q016 = LabelEncoder()
+LabelEncoder_Q017 = LabelEncoder()
+LabelEncoder_Q018 = LabelEncoder()
+LabelEncoder_Q019 = LabelEncoder()
+LabelEncoder_Q020 = LabelEncoder()
+LabelEncoder_Q021 = LabelEncoder()
+LabelEncoder_Q022 = LabelEncoder()
+LabelEncoder_Q023 = LabelEncoder()
+LabelEncoder_Q024 = LabelEncoder()
+LabelEncoder_Q025 = LabelEncoder()
+
+quantitativo_regressao[:,1] = LabelEncoder_TP_SEXO.fit_transform(quantitativo_regressao[:,1])
+quantitativo_regressao[:,13] = LabelEncoder_Q001.fit_transform(quantitativo_regressao[:,13])
+quantitativo_regressao[:,14] = LabelEncoder_Q002.fit_transform(quantitativo_regressao[:,14])
+quantitativo_regressao[:,15] = LabelEncoder_Q003.fit_transform(quantitativo_regressao[:,15])
+quantitativo_regressao[:,16] = LabelEncoder_Q004.fit_transform(quantitativo_regressao[:,16])
+quantitativo_regressao[:,18] = LabelEncoder_Q006.fit_transform(quantitativo_regressao[:,18])
+quantitativo_regressao[:,19] = LabelEncoder_Q007.fit_transform(quantitativo_regressao[:,19])
+quantitativo_regressao[:,20] = LabelEncoder_Q008.fit_transform(quantitativo_regressao[:,20])
+quantitativo_regressao[:,21] = LabelEncoder_Q009.fit_transform(quantitativo_regressao[:,21])
+quantitativo_regressao[:,22] = LabelEncoder_Q010.fit_transform(quantitativo_regressao[:,22])
+quantitativo_regressao[:,23] = LabelEncoder_Q011.fit_transform(quantitativo_regressao[:,23])
+quantitativo_regressao[:,24] = LabelEncoder_Q012.fit_transform(quantitativo_regressao[:,24])
+quantitativo_regressao[:,25] = LabelEncoder_Q013.fit_transform(quantitativo_regressao[:,25])
+quantitativo_regressao[:,26] = LabelEncoder_Q014.fit_transform(quantitativo_regressao[:,26])
+quantitativo_regressao[:,27] = LabelEncoder_Q015.fit_transform(quantitativo_regressao[:,27])
+quantitativo_regressao[:,28] = LabelEncoder_Q016.fit_transform(quantitativo_regressao[:,28])
+quantitativo_regressao[:,29] = LabelEncoder_Q017.fit_transform(quantitativo_regressao[:,29])
+quantitativo_regressao[:,30] = LabelEncoder_Q018.fit_transform(quantitativo_regressao[:,30])
+quantitativo_regressao[:,31] = LabelEncoder_Q019.fit_transform(quantitativo_regressao[:,31])
+quantitativo_regressao[:,32] = LabelEncoder_Q020.fit_transform(quantitativo_regressao[:,32])
+quantitativo_regressao[:,33] = LabelEncoder_Q021.fit_transform(quantitativo_regressao[:,33])
+quantitativo_regressao[:,34] = LabelEncoder_Q022.fit_transform(quantitativo_regressao[:,34])
+quantitativo_regressao[:,35] = LabelEncoder_Q023.fit_transform(quantitativo_regressao[:,35])
+quantitativo_regressao[:,36] = LabelEncoder_Q024.fit_transform(quantitativo_regressao[:,36])
+quantitativo_regressao[:,37] = LabelEncoder_Q025.fit_transform(quantitativo_regressao[:,37])
+
+# criando a instância, objeto que fará a normalização:
+normalizacao_regressao_DF = MinMaxScaler()
+
+# Normalizando as variáveis:
+regressao_DF_normalizado = normalizacao_regressao_DF.fit_transform(quantitativo_regressao)
+
+# transformando em dataframe o conjunto normalizado.
+regressao_DF_normalizado_df = pd.DataFrame(
+    regressao_DF_normalizado,
+    columns=regressao_DF.columns
+)
+
+# Salvando em CSV
+regressao_DF_normalizado_df.to_csv("regressao_DF_normalizado.csv", index=False)

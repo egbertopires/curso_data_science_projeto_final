@@ -40,15 +40,16 @@ enemDF["SITUACAO_PRESENCA"] = np.select(
 # A lista criada com range facilita o agrupamento de colunas para o cálculo
 enemDF["MEDIA"] = enemDF.iloc[:, list(range(18, (21+1))) + [29]].mean(axis=1)
 
+
 # A partir deste ponto, o conjunto de dados está pronto para ser dividido
 # e atender aos critérios do projeto.
 # O dataframe enemDF servirá como base para criação de dashboards no Power BI
 # e para geração de conjuntos destinados a classificação e regressão.
 
-# Criando o dataset tratado_enem_2019
+# Criando o dataset tratado_enem_2019_
 # Contém a base original do ENEM 2019 pré-processada
 # Ideal para reutilização em trabalhos futuros
-enemDF.to_csv("tratado_enem_2019")
+enemDF.to_csv("tratado_enem_2019", index=False)
 
 # Criando o conjunto de dados para classificação
 # Excluindo colunas desnecessárias (lista definida no módulo variáveis)
@@ -60,12 +61,8 @@ classificacaoEnemDF = enemDF.loc[enemDF['SITUACAO_PRESENCA'] != 'ELIMINADO OU PR
 regressaoEnemDF = enemDF.loc[enemDF['SITUACAO_PRESENCA'] == 'PRESENTE'\
                                 ].drop(excluirRegressao, axis=1)
 
-enemDF.info()
-
 # Salvando os datasets em arquivos CSV
 # Os arquivos gerados estão na pasta arquivos.
+
 classificacaoEnemDF.to_csv("classificacao_enem_2019", index=False)
 regressaoEnemDF.to_csv("regressao_enem_2019", index=False)
-
-classificacaoEnemDF.info()
-regressaoEnemDF.info()

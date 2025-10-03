@@ -1,7 +1,7 @@
 # Importando as bibliotecas necessárias para a Análise Exploratória de Dados
 import matplotlib.pyplot as plt
 import seaborn as sns
-from variaveis import tratados_DF, regressao_DF, faixaSalarial
+from variaveis import tratados_DF, regressao_DF, faixaSalarial, normalizado_regressao_DF
 
 ########################################################
 
@@ -96,17 +96,17 @@ plt.ylim(min_val - 10, max_val + 10)
 plt.yticks(range(int(min_val), int(max_val)+25, 25))
 
 ########################################################
-# Substituindo códigos por faixas salariais
+# Substituindo códigos da coluna Q006 por faixas salariais usando o mapeamento definido em faixaSalarial
 alunosPresentes["Faixa_Salarial"] = alunosPresentes["Q006"].map(faixaSalarial)
 
-# Agrupar por faixa salarial e calcular a média das notas
+# Agrupando por faixa salarial e calculando a média das notas para cada faixa
 dados_plot = alunosPresentes.groupby("Faixa_Salarial")["MEDIA"].mean().sort_values(ascending=False).reset_index()
 
-# Plotar gráfico horizontal das médias por faixa salarial
+# Plotando gráfico horizontal das médias por faixa salarial
 plt.figure(figsize=(10,8))
 ax = sns.barplot(y="Faixa_Salarial", x="MEDIA", data=dados_plot, ci=None, palette="viridis", orient="h")
 
-# Adicionar valores ao final de cada barra
+# Adicionando valores da média ao final de cada barra
 for i, v in enumerate(dados_plot["MEDIA"]):
     ax.text(v + 0.05, i, f"{v:.2f}", va="center")
 
@@ -114,10 +114,28 @@ plt.title("DESEMPENHO POR FAIXA SALARIAL")
 plt.xlabel(" ")
 plt.ylabel(" ")
 
-# Exibindo os gráficos
+# Exibindo o gráfico
 plt.show()
 
 ########################################################
-# Avaliando a correlação entre média das notas e faixa etária
+# Calculando a correlação entre a média das notas e a faixa etária dos alunos
 correlacao = alunosPresentes['MEDIA'].corr(alunosPresentes['TP_FAIXA_ETARIA'])
 print(correlacao)
+
+########################################################
+# Analisando quais preditores (features) têm correlação com a média das notas usando um mapa de calor
+
+# Calcula a correlação da coluna MEDIA com todas as outras variáveis do dataframe normalizado
+correlacao_regressao = normalizado_regressao_DF.corr()["MEDIA"].drop("MEDIA")
+
+# Ordenando os valores de correlação em ordem decrescente
+correlacao_ordenada = correlacao_regressao.sort_values(ascending=False)
+
+# Gerando arquivo CSV com as correlações ordenadas
+correlacao_ordenada.to_frame().to_csv("correlacao_desempenho.csv", index=True)
+
+# Criando mapa de calor vertical para melhor visualização das correlações
+plt.figure(figsize=(4, 10))
+sns.heatmap(correlacao_regressao.to_frame(), annot=True, cmap="coolwarm", center=0, linewidths=0.5)
+plt.title("CORRELAÇÃO DOS PREVISORES COM O DESEMPENHO")
+plt.show()

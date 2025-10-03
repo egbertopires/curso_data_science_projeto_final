@@ -1,8 +1,12 @@
 # Importando o pandas
 import pandas as pd
 
+########################################################
+
 # Caminho do conjunto de dados em formato CSV
 caminhoDosDados = r"C:\Users\egber\projetosPython\projeto_final_youth_space\arquivos\MICRODADOS_ENEM_2019.csv"
+
+########################################################
 
 # Colunas que devem ser excluídas do dataframe
 # Motivo: consideradas sem relevância para a análise
@@ -15,6 +19,8 @@ retirarColunas = [
     "TX_GABARITO_LC", "TX_GABARITO_MT"
 ]
 
+########################################################
+
 # Colunas que devem ter valores ausentes substituídos por zero
 # Interpretação: o participante não informou o dado ou a nota é zero
 colunas_substituir_por_zero = [
@@ -23,6 +29,8 @@ colunas_substituir_por_zero = [
     "NU_NOTA_COMP1", "NU_NOTA_COMP2", "NU_NOTA_COMP3", "NU_NOTA_COMP4",
     "NU_NOTA_COMP5", "NU_NOTA_REDACAO"
 ]
+
+########################################################
 
 # Colunas a serem excluídas para o conjunto de classificação
 # Motivo: consideradas sem relevância para a análise
@@ -33,6 +41,8 @@ excluirClassificacao = [
     "NU_NOTA_COMP5", "NU_NOTA_REDACAO", "MEDIA"
 ]
 
+########################################################
+
 # Colunas a serem excluídas para o conjunto de regressão
 # Motivo: consideradas sem relevância para a análise
 excluirRegressao = [
@@ -41,6 +51,8 @@ excluirRegressao = [
     "TP_STATUS_REDACAO", "NU_NOTA_COMP1", "NU_NOTA_COMP2", "NU_NOTA_COMP3", "NU_NOTA_COMP4",
     "NU_NOTA_COMP5", "NU_NOTA_REDACAO", "SITUACAO_PRESENCA"
 ]
+
+########################################################
 
 # Dicionário para substituir códigos do Q6 por faixas salariais
 faixaSalarial = {
@@ -63,8 +75,41 @@ faixaSalarial = {
     "Q": "Mais de 19.960"
 }
 
+########################################################
+
 # Leitura do dataframe tratado (pré-processado para análise)
 tratados_DF = pd.read_csv(r"arquivos/tratado_enem_2019")
 
+#######################################################
+
 # Leitura do dataframe para regressão
 regressao_DF = pd.read_csv(r"arquivos/regressao_enem_2019")
+
+# ########################################################
+
+# Criando uma iteração para a criação de instâncias LabelEnconder
+
+# Criando uma lista com os nomes de todas as colunas
+listandoColunasTratadas = regressao_DF.columns.to_list()
+
+textoUm = ''
+textoDois = ''
+
+# Iterando para verificar quais colunas são qualitativas
+indiceRegressao = 0
+for nomeColuna in listandoColunasTratadas:
+    if regressao_DF[nomeColuna].dtype == "object":
+        textoUm += f'LabelEncoder_{nomeColuna} = LabelEncoder()\n'
+        textoDois += f'quantitativo_regressao[:,{indiceRegressao}] = LabelEncoder_{nomeColuna}.fit_transform(quantitativo_regressao[:,{indiceRegressao}])\n'
+    indiceRegressao += 1
+
+laberRegressao = f'{textoUm}\n{textoDois}'
+
+# Criando um arquivo de texto com os dados da iteração
+with open("arquivos/laberRegressao.txt", "w", encoding="utf-8") as f:
+    f.write(str(laberRegressao))
+
+#######################################################
+
+# Leitura do dataframe para criação do mapa de calor
+normalizado_regressao_DF = pd.read_csv(r"C:\Users\egber\projetosPython\projeto_final_youth_space\arquivos\regressao_DF_normalizado.csv")
