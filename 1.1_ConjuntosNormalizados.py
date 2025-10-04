@@ -1,6 +1,6 @@
 # Importando as bibliotecas
 
-from variaveis import regressao_DF # módulo variaveis
+from variaveis import regressao_DF,classificacao_DF # módulo variaveis
 import pandas as pd # pandas
 from sklearn.preprocessing import LabelEncoder # label enconder
 from sklearn.preprocessing import MinMaxScaler # normalização
@@ -8,10 +8,13 @@ from sklearn.preprocessing import MinMaxScaler # normalização
 ########################################################
 
 ## Transfomando os dados qualitativos em quantitavos do dataframe regressaoDF
-
 # Criando as instâncias que tornarão os dados qualitavos em quantitativos
 
 quantitativo_regressao = regressao_DF.iloc[:,:].values
+
+# O código que gera as seguintes instâncias encontram-se no módulo variaveis.py
+# Foi gerado um arquivo para facilitar o uso.
+# Caminho do arquivo: arquivos/laberRegressao.txt
 
 LabelEncoder_TP_SEXO = LabelEncoder()
 LabelEncoder_Q001 = LabelEncoder()
@@ -79,3 +82,84 @@ regressao_DF_normalizado_df = pd.DataFrame(
 
 # Salvando em CSV
 regressao_DF_normalizado_df.to_csv("regressao_DF_normalizado.csv", index=False)
+
+########################################################
+
+
+##Transfomando os dados qualitativos em quantitavos do dataframe ausentesDF
+# Criando as instâncias que tornarão os dados qualitavos em quantitativos
+
+quantitativo_classificacao = classificacao_DF.iloc[:,:].values
+
+# O código que gera as seguintes instâncias encontram-se no módulo variaveis.py
+# Foi gerado um arquivo para facilitar o uso.
+# Caminho do arquivo: arquivos/laberRegressao.txt
+
+LabelEncoder_TP_SEXO = LabelEncoder()
+LabelEncoder_Q001 = LabelEncoder()
+LabelEncoder_Q002 = LabelEncoder()
+LabelEncoder_Q003 = LabelEncoder()
+LabelEncoder_Q004 = LabelEncoder()
+LabelEncoder_Q006 = LabelEncoder()
+LabelEncoder_Q007 = LabelEncoder()
+LabelEncoder_Q008 = LabelEncoder()
+LabelEncoder_Q009 = LabelEncoder()
+LabelEncoder_Q010 = LabelEncoder()
+LabelEncoder_Q011 = LabelEncoder()
+LabelEncoder_Q012 = LabelEncoder()
+LabelEncoder_Q013 = LabelEncoder()
+LabelEncoder_Q014 = LabelEncoder()
+LabelEncoder_Q015 = LabelEncoder()
+LabelEncoder_Q016 = LabelEncoder()
+LabelEncoder_Q017 = LabelEncoder()
+LabelEncoder_Q018 = LabelEncoder()
+LabelEncoder_Q019 = LabelEncoder()
+LabelEncoder_Q020 = LabelEncoder()
+LabelEncoder_Q021 = LabelEncoder()
+LabelEncoder_Q022 = LabelEncoder()
+LabelEncoder_Q023 = LabelEncoder()
+LabelEncoder_Q024 = LabelEncoder()
+LabelEncoder_Q025 = LabelEncoder()
+LabelEncoder_SITUACAO_PRESENCA = LabelEncoder()
+
+quantitativo_classificacao[:,1] = LabelEncoder_TP_SEXO.fit_transform(quantitativo_classificacao[:,1])
+quantitativo_classificacao[:,13] = LabelEncoder_Q001.fit_transform(quantitativo_classificacao[:,13])
+quantitativo_classificacao[:,14] = LabelEncoder_Q002.fit_transform(quantitativo_classificacao[:,14])
+quantitativo_classificacao[:,15] = LabelEncoder_Q003.fit_transform(quantitativo_classificacao[:,15])
+quantitativo_classificacao[:,16] = LabelEncoder_Q004.fit_transform(quantitativo_classificacao[:,16])
+quantitativo_classificacao[:,18] = LabelEncoder_Q006.fit_transform(quantitativo_classificacao[:,18])
+quantitativo_classificacao[:,19] = LabelEncoder_Q007.fit_transform(quantitativo_classificacao[:,19])
+quantitativo_classificacao[:,20] = LabelEncoder_Q008.fit_transform(quantitativo_classificacao[:,20])
+quantitativo_classificacao[:,21] = LabelEncoder_Q009.fit_transform(quantitativo_classificacao[:,21])
+quantitativo_classificacao[:,22] = LabelEncoder_Q010.fit_transform(quantitativo_classificacao[:,22])
+quantitativo_classificacao[:,23] = LabelEncoder_Q011.fit_transform(quantitativo_classificacao[:,23])
+quantitativo_classificacao[:,24] = LabelEncoder_Q012.fit_transform(quantitativo_classificacao[:,24])
+quantitativo_classificacao[:,25] = LabelEncoder_Q013.fit_transform(quantitativo_classificacao[:,25])
+quantitativo_classificacao[:,26] = LabelEncoder_Q014.fit_transform(quantitativo_classificacao[:,26])
+quantitativo_classificacao[:,27] = LabelEncoder_Q015.fit_transform(quantitativo_classificacao[:,27])
+quantitativo_classificacao[:,28] = LabelEncoder_Q016.fit_transform(quantitativo_classificacao[:,28])
+quantitativo_classificacao[:,29] = LabelEncoder_Q017.fit_transform(quantitativo_classificacao[:,29])
+quantitativo_classificacao[:,30] = LabelEncoder_Q018.fit_transform(quantitativo_classificacao[:,30])
+quantitativo_classificacao[:,31] = LabelEncoder_Q019.fit_transform(quantitativo_classificacao[:,31])
+quantitativo_classificacao[:,32] = LabelEncoder_Q020.fit_transform(quantitativo_classificacao[:,32])
+quantitativo_classificacao[:,33] = LabelEncoder_Q021.fit_transform(quantitativo_classificacao[:,33])
+quantitativo_classificacao[:,34] = LabelEncoder_Q022.fit_transform(quantitativo_classificacao[:,34])
+quantitativo_classificacao[:,35] = LabelEncoder_Q023.fit_transform(quantitativo_classificacao[:,35])
+quantitativo_classificacao[:,36] = LabelEncoder_Q024.fit_transform(quantitativo_classificacao[:,36])
+quantitativo_classificacao[:,37] = LabelEncoder_Q025.fit_transform(quantitativo_classificacao[:,37])
+quantitativo_classificacao[:,38] = LabelEncoder_SITUACAO_PRESENCA.fit_transform(quantitativo_classificacao[:,38])
+
+# criando a instância, objeto que fará a normalização:
+normalizacao_ausentes_DF = MinMaxScaler()
+
+# Normalizando as variáveis:
+ausente_DF_normalizado = normalizacao_ausentes_DF.fit_transform(quantitativo_classificacao)
+
+# transformando em dataframe o conjunto normalizado.
+ausentes_DF_normalizado_df = pd.DataFrame(
+    ausente_DF_normalizado,
+    columns=classificacao_DF.columns
+)
+
+# Salvando em CSV
+ausentes_DF_normalizado_df.to_csv("ausentes_DF_normalizado.csv", index=False)

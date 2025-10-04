@@ -87,6 +87,16 @@ regressao_DF = pd.read_csv(r"arquivos/regressao_enem_2019")
 
 # ########################################################
 
+# Leitura do dataframe para classificação
+classificacao_DF = pd.read_csv(r"arquivos/classificacao_enem_2019")
+
+# ########################################################
+
+# Leitura do dataframe para classificação ausentes
+classificacao_ausentes_DF = pd.read_csv(r"arquivos/ausentes_DF_normalizado.csv")
+
+# ########################################################
+
 # Criando uma iteração para a criação de instâncias LabelEnconder
 
 # Criando uma lista com os nomes de todas as colunas
@@ -113,3 +123,26 @@ with open("arquivos/laberRegressao.txt", "w", encoding="utf-8") as f:
 
 # Leitura do dataframe para criação do mapa de calor
 normalizado_regressao_DF = pd.read_csv(r"C:\Users\egber\projetosPython\projeto_final_youth_space\arquivos\regressao_DF_normalizado.csv")
+
+#######################################################
+# Criando uma iteração para a criação de instâncias LabelEnconder
+
+# Criando uma lista com os nomes de todas as colunas
+listandoColunasTratadas = classificacao_DF.columns.to_list()
+
+textoUm = ''
+textoDois = ''
+
+# Iterando para verificar quais colunas são qualitativas
+indiceClassificacao = 0
+for nomeColuna in listandoColunasTratadas:
+    if classificacao_DF[nomeColuna].dtype == "object":
+        textoUm += f'LabelEncoder_{nomeColuna} = LabelEncoder()\n'
+        textoDois += f'quantitativo_classificacao[:,{indiceClassificacao}] = LabelEncoder_{nomeColuna}.fit_transform(quantitativo_classificacao[:,{indiceClassificacao}])\n'
+    indiceClassificacao += 1
+
+laberClassificacao = f'{textoUm}\n{textoDois}'
+
+# Criando um arquivo de texto com os dados da iteração
+with open("arquivos/laberClassificacao.txt", "w", encoding="utf-8") as f:
+    f.write(str(laberClassificacao))

@@ -9,6 +9,7 @@ arquivos/classificacao_enem_2019
 arquivos/regressao_enem_2019
 arquivos/tratado_enem_2019
 arquivos/regressao_DF_normalizado.csv
+arquivos/ausentes_DF_normalizado.csv
 
 # Configurações do PyCharm
 .idea/

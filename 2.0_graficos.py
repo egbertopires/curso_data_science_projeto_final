@@ -1,9 +1,11 @@
 # Importando as bibliotecas necessárias para a Análise Exploratória de Dados
 import matplotlib.pyplot as plt
+import pandas as pd
 import seaborn as sns
-from variaveis import tratados_DF, regressao_DF, faixaSalarial, normalizado_regressao_DF
+from variaveis import (tratados_DF, regressao_DF, faixaSalarial,
+                       normalizado_regressao_DF,classificacao_ausentes_DF)
 
-########################################################
+# ########################################################
 
 # Filtrando apenas os alunos presentes para criar um novo dataframe
 alunosPresentes = tratados_DF[tratados_DF['SITUACAO_PRESENCA'] == "PRESENTE"]
@@ -138,4 +140,23 @@ correlacao_ordenada.to_frame().to_csv("correlacao_desempenho.csv", index=True)
 plt.figure(figsize=(4, 10))
 sns.heatmap(correlacao_regressao.to_frame(), annot=True, cmap="coolwarm", center=0, linewidths=0.5)
 plt.title("CORRELAÇÃO DOS PREVISORES COM O DESEMPENHO")
+plt.show()
+
+########################################################
+# Analisando quais preditores (features) têm correlação com as ausencias usando um mapa de calor
+# Analisando quais preditores (features) têm correlação com a média das notas usando um mapa de calor
+
+# Calcula a correlação da coluna MEDIA com todas as outras variáveis do dataframe normalizado
+correlacao_classificacao = classificacao_ausentes_DF.corr()["SITUACAO_PRESENCA"].drop("SITUACAO_PRESENCA")
+
+# Ordenando os valores de correlação em ordem decrescente
+classificacao_ordenada = correlacao_classificacao.sort_values(ascending=False)
+
+# Gerando arquivo CSV com as correlações ordenadas
+classificacao_ordenada.to_frame().to_csv("correlacao_tipoPresença.csv", index=True)
+
+# Criando mapa de calor vertical para melhor visualização das correlações
+plt.figure(figsize=(4, 10))
+sns.heatmap(correlacao_classificacao.to_frame(), annot=True, cmap="coolwarm", center=0, linewidths=0.5)
+plt.title("CORRELAÇÃO DOS PREVISORES COM SITUAÇÃO DA PRESENÇA")
 plt.show()
